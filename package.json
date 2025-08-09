@@ -1,15 +1,16 @@
 {
-  "name": "messenger-name-lock",
+  "name": "messenger-group-name-lock",
   "version": "1.0.0",
-  "main": "server.js",
+  "description": "Messenger Group Name Lock Bot Panel",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "dependencies": {
-    "dotenv": "^16.0.3",
+    "axios": "^1.5.0",
     "express": "^4.18.2",
-    "puppeteer": "^21.3.8",
     "body-parser": "^1.20.2",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "js-yaml": "^4.1.0"
   }
 }
