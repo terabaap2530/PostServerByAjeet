@@ -1,33 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Messenger Name Lock Panel</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Messenger Group Name Lock</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #111;
+        color: #fff;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+    h1 {
+        background: #222;
+        padding: 15px;
+        margin: 0;
+    }
+    .container {
+        margin-top: 30px;
+    }
+    input, button {
+        padding: 10px;
+        margin: 10px;
+        border: none;
+        border-radius: 5px;
+    }
+    input {
+        width: 250px;
+    }
+    button {
+        background: #28a745;
+        color: white;
+        cursor: pointer;
+    }
+    button.stop {
+        background: red;
+    }
+</style>
 </head>
-<body style="font-family: Arial; text-align:center;">
+<body>
     <h1>Messenger Group Name Lock</h1>
-    <input id="name" placeholder="Enter group name to lock" style="padding:5px;" />
-    <br><br>
-    <button onclick="lockName()">🔒 Lock</button>
-    <button onclick="unlockName()">🔓 Unlock</button>
+    <div class="container">
+        <input type="text" id="groupId" placeholder="Enter Group Chat ID">
+        <input type="text" id="lockName" placeholder="Enter Locked Name">
+        <br>
+        <button onclick="startLock()">Start Lock</button>
+        <button class="stop" onclick="stopLock()">Stop Lock</button>
+    </div>
 
-    <script>
-        async function lockName() {
-            const name = document.getElementById('name').value;
-            const res = await fetch('/api/lock', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name })
-            });
-            alert((await res.json()).message);
+<script>
+    async function startLock() {
+        const groupId = document.getElementById("groupId").value;
+        const lockName = document.getElementById("lockName").value;
+
+        if (!groupId || !lockName) {
+            alert("Please enter both Group ID and Locked Name");
+            return;
         }
 
-        async function unlockName() {
-            const res = await fetch('/api/unlock', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
-            });
-            alert((await res.json()).message);
-        }
-    </script>
+        let res = await fetch("/start-lock", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ groupId, lockName })
+        });
+        let data = await res.json();
+        alert(data.message);
+    }
+
+    async function stopLock() {
+        let res = await fetch("/stop-lock", { method: "POST" });
+        let data = await res.json();
+        alert(data.message);
+    }
+</script>
 </body>
 </html>
