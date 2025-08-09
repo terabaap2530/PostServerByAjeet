@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Messenger Group Name Lock — Panel</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;padding:20px;max-width:700px;margin:auto}
+    input,button{padding:10px;margin:6px 0;font-size:16px}
+    .row{display:flex;gap:8px}
+    .status{margin-top:12px;padding:10px;border:1px solid #ddd;border-radius:6px}
+  </style>
+</head>
+<body>
+  <h2>Messenger Group Name Lock</h2>
+  <p>Yahan se group name lock / unlock karein. Ensure `.env` has your FB cookie and GROUP_URL set.</p>
+
+  <label>Lock name (new):</label><br>
+  <input id="lockName" placeholder="Enter locked group name" style="width:100%" />
+  <div style="margin-top:8px" class="row">
+    <button id="btnLock">🔒 Lock</button>
+    <button id="btnUnlock">🔓 Unlock</button>
+    <button id="btnRefresh">🔁 Refresh Status</button>
+  </div>
+
+  <div class="status" id="statusBox">Loading status...</div>
+
+  <script>
+    async function api(path, opts){
+      const res = await fetch(path, opts);
+      return res.json();
+    }
+
+    async function refresh(){
+      const s = await api('/api/status');
+      document.getElementById('statusBox').innerText =
+        `Bot running: ${s.running}\nLock enabled: ${s.lockEnabled}\nLocked name: ${s.LOCK_NAME}\nCurrent group name: ${s.currentName}`;
+      document.getElementById('lockName').value = s.LOCK_NAME || '';
+    }
+
+    document.getElementById('btnLock').addEventListener('click', async ()=>{
+      const name = document.getElementById('lockName').value || undefined;
+      await api('/api/lock', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({name})});
+      await refresh();
+    });
+
+    document.getElementById('btnUnlock').addEventListener('click', async ()=>{
+      await api('/api/unlock', {method:'POST'});
+      await refresh();
+    });
+
+    document.getElementById('btnRefresh').addEventListener('click', refresh);
+
+    refresh();
+  </script>
+</body>
+</html>
