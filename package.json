@@ -2,9 +2,9 @@
   "name": "messenger-group-name-lock",
   "version": "1.0.0",
   "description": "Messenger Group Name Lock Bot Panel",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "axios": "^1.5.0",
