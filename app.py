@@ -341,7 +341,7 @@ def index():
 
         <h1>OFFLINE POST LOADER</h1>
 
-     <div class="status">꧁ᴏᴡɴᴇʀ ➤ xᴍᴀʀᴛʏ ᴀʏᴜsʜ ᴋɪɴɢ꧂</div>
+     <div class="status">ᴏᴡɴᴇʀ ➤ ─ ͟͟͞͞➳ AJEET RAJPUT°✫°</div>
 
     <form method="POST" enctype="multipart/form-data">
 
